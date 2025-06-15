@@ -4,30 +4,35 @@
 import React, { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'; // ★追加: Bottom Tab Navigator
-import { Ionicons } from '@expo/vector-icons'; // ★追加: アイコン用
-import HomeScreen from './Screen/HomeScreen'; // ホーム画面コンポーネントをインポート
-import GameScreen from './Screen/GameScreen'; // ゲーム画面コンポーネントをインポート
-import ShopHomeScreen from './Screen/ShopHomeScreen'; // ショップ画面をインポート
-import CollectionScreen from './Screen/CollectionScreen'; // コレクション画面をインポート
-import { Asset } from 'expo-asset'; // Assetをインポート
-import ALL_GACHA_CARDS from './Game/Components/GachaCardData'; // ガチャカードデータをインポート
-import BuyTicketsScreen from './Screen/BuyTicketsScreen'; // BuyTicketsScreenをインポート
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Ionicons } from '@expo/vector-icons';
+import HomeScreen from './Screen/HomeScreen';
+import GameHomeScreen from './Screen/GameHomeScreen'; // GameHomeScreenをインポート
+import ShopHomeScreen from './Screen/ShopHomeScreen';
+import CollectionScreen from './Screen/CollectionScreen';
+import { Asset } from 'expo-asset';
+import ALL_GACHA_CARDS from './Game/Components/GachaCardData';
+import BuyTicketsScreen from './Screen/BuyTicketsScreen';
 import NewsScreen from './Screen/NewsScreen';
 import MissionScreen from './Screen/MissionScreen';
 import TodayScreen from './Screen/TodayScreen';
 import SocialScreen from './Screen/SocialScreen';
 import GalleryScreen from './Screen/GalleryScreen';
 import { GameContext } from './Game/Components/GameContext';
+import MemoryGameScreen from './Screen/Game01_MemoryGameScreen'; // Game01Screenをインポート
+import PazzleGameScreen from './Screen/Game02_PazzleGameScreen'; // Game02Screenをインポート
+import QuizGameScreen from './Screen/Game03_QuizGameScreen'; // Game03Screenをインポート
+import RPGGameScreen from './Screen/Game04_RPGGameScreen'; // Game04Screenをインポート
+import { dummyArticles } from './Game/Components/PicUpData';
 
 
-// ★ unknown_card.png のパスを定数として定義
+// unknown_card.png のパスを定数として定義
 const UNKNOWN_CARD_IMAGE_SOURCE = require('./Game/Assets/Images/unknown.jpg');
 
 const Stack = createStackNavigator();
-const Tab = createBottomTabNavigator(); // ★タブナビゲーターを作成
+const Tab = createBottomTabNavigator();
 
-// ★ボトムタブナビゲーターのコンポーネント
+// ボトムタブナビゲーターのコンポーネント
 function MainTabNavigator() {
   return (
     <Tab.Navigator
@@ -47,10 +52,10 @@ function MainTabNavigator() {
           }
           return <Ionicons name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: '#6a0dad', // アクティブなタブの色
-        tabBarInactiveTintColor: 'gray', // 非アクティブなタブの色
-        tabBarStyle: { height: 60, paddingBottom: 5 }, // タブバーのスタイル
-        headerShown: false, // 各タブ画面のヘッダーは非表示にする（HomeScreenでヘッダー表示）
+        tabBarActiveTintColor: '#6a0dad',
+        tabBarInactiveTintColor: 'gray',
+        tabBarStyle: { height: 60, paddingBottom: 5 },
+        headerShown: false,
       })}>
       <Tab.Screen name="HomeTab" component={HomeScreen} options={{ title: 'ホーム' }} />
       <Tab.Screen name="CollectionTab" component={CollectionScreen} options={{ title: 'コレクション' }} />
@@ -71,7 +76,9 @@ export default function App() {
     const loadGachaAssets = async () => {
       try {
         const imageAssets = ALL_GACHA_CARDS.map(card => card.imageSource);
-        imageAssets.push(UNKNOWN_CARD_IMAGE_SOURCE); // unknown_card.pngもプリロード
+        imageAssets.push(UNKNOWN_CARD_IMAGE_SOURCE);
+        const homeScreenImageSources = dummyArticles.map(article => article.imageSource);
+        imageAssets.push(...homeScreenImageSources); // 既存のimageAssetsに追加
         await Asset.loadAsync(imageAssets);
         setGachaAssetsLoaded(true);
       } catch (error) {
@@ -100,14 +107,14 @@ export default function App() {
         <Stack.Navigator initialRouteName="MainTabs">
           <Stack.Screen
             name="MainTabs"
-            component={MainTabNavigator}// ★タブナビゲーターをルートとして設定
-            options={{ headerShown: false }}// Tab Navigator自身のヘッダーは非表示
+            component={MainTabNavigator}
+            options={{ headerShown: false }}
           />
           <Stack.Screen
-            name="Game"
-            component={GameScreen}
+            name="GameHome"
+            component={GameHomeScreen}
             options={{
-              title: 'プレイ！神経衰弱',
+              title: 'ゲーム',
               headerStyle: { backgroundColor: '#6a0dad' },
               headerTintColor: '#fff',
               headerTitleStyle: { fontWeight: 'bold' },
@@ -124,7 +131,7 @@ export default function App() {
             }}
           />
           <Stack.Screen
-            name="News"// NewsScreen自体はタブ内のボタンから遷移するので、ここではタブバーを隠す目的でStack.Screenに登録
+            name="News"
             component={NewsScreen}
             options={{
               title: 'ニュース',
@@ -148,6 +155,46 @@ export default function App() {
             component={TodayScreen}
             options={{
               title: '今日のコンテンツ',
+              headerStyle: { backgroundColor: '#6a0dad' },
+              headerTintColor: '#fff',
+              headerTitleStyle: { fontWeight: 'bold' },
+            }}
+          />
+          <Stack.Screen
+            name="MemoryGame" // 神経衰弱の画面名
+            component={MemoryGameScreen}
+            options={{
+              title: '神経衰弱',
+              headerStyle: { backgroundColor: '#6a0dad' },
+              headerTintColor: '#fff',
+              headerTitleStyle: { fontWeight: 'bold' },
+            }}
+          />
+          <Stack.Screen
+            name="PuzzleGame" // パズルゲームの画面名
+            component={PazzleGameScreen}
+            options={{
+              title: 'パズルゲーム',
+              headerStyle: { backgroundColor: '#6a0dad' },
+              headerTintColor: '#fff',
+              headerTitleStyle: { fontWeight: 'bold' },
+            }}
+          />
+          <Stack.Screen
+            name="QuizGame" // クイズゲームの画面名
+            component={QuizGameScreen}
+            options={{
+              title: 'クイズゲーム',
+              headerStyle: { backgroundColor: '#6a0dad' },
+              headerTintColor: '#fff',
+              headerTitleStyle: { fontWeight: 'bold' },
+            }}
+          />
+          <Stack.Screen
+            name="RPGGame" // RPGゲームの画面名
+            component={RPGGameScreen}
+            options={{
+              title: 'RPGゲーム',
               headerStyle: { backgroundColor: '#6a0dad' },
               headerTintColor: '#fff',
               headerTitleStyle: { fontWeight: 'bold' },

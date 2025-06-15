@@ -4,7 +4,7 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, ScrollView, Image, Dimensions } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import { GameContext } from '../Game/Components/GameContext';
+import { dummyArticles } from '../Game/Components/PicUpData';
 
 // ★新規作成するコンポーネント (仮)
 // これらは実際のプロジェクトで別途ファイルとして作成してください
@@ -23,7 +23,7 @@ const ArticleCarousel = ({ articles }) => {
         <View style={homeStyles.carouselContainer}>
             <Text style={homeStyles.sectionTitle}>注目記事</Text>
             <View style={homeStyles.carouselItem}>
-                <Image source={{ uri: articles[currentIndex].imageUrl }} style={homeStyles.carouselImage} />
+                <Image source={articles[currentIndex].imageSource} style={homeStyles.carouselImage} />
                 <Text style={homeStyles.carouselText}>{articles[currentIndex].title}</Text>
             </View>
             <View style={homeStyles.carouselIndicators}>
@@ -62,9 +62,9 @@ const NavigationButtons = ({ navigation }) => {
             <View style={homeStyles.buttonRow}>
                 <TouchableOpacity
                     style={homeStyles.navButton}
-                    onPress={() => navigation.navigate('Game')} // ★App.jsのStack.Screen名
+                    onPress={() => navigation.navigate('GameHome')} // ★App.jsのStack.Screen名
                 >
-                    <Text style={homeStyles.navButtonText}>神経衰弱</Text>
+                    <Text style={homeStyles.navButtonText}>ゲーム</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={homeStyles.navButton}
@@ -133,19 +133,12 @@ const RankingSection = () => {
 
 
 export default function HomeScreen({ navigation }) {
-    // ダミーの注目記事データ (実際はAPIから取得)
-    const dummyArticles = [
-        { id: '1', title: '最新イベント開催中！', imageUrl: 'https://via.placeholder.com/300x150/FF6347/FFFFFF?text=Event1' },
-        { id: '2', title: '新ガチャカード登場！', imageUrl: 'https://via.placeholder.com/300x150/4682B4/FFFFFF?text=Gacha2' },
-        { id: '3', title: '初心者応援キャンペーン！', imageUrl: 'https://via.placeholder.com/300x150/3CB371/FFFFFF?text=Beginner3' },
-        { id: '4', title: 'ランキング上位を目指せ！', imageUrl: 'https://via.placeholder.com/300x150/DAA520/FFFFFF?text=Ranking4' },
-        { id: '5', title: '開発者ブログ更新！', imageUrl: 'https://via.placeholder.com/300x150/9370DB/FFFFFF?text=DevBlog5' },
-    ];
-
+  // ★dummyArticlesの定義を削除し、インポートしたものを使用
+  // const dummyArticles = [ ... ];
     return (
         <View style={homeStyles.fullScreenContainer}>
             <StatusBar style="auto" />
-            <Text style={homeStyles.headerTitle}>ゲームタイトル</Text> {/* アプリのタイトル */}
+            <Text style={homeStyles.headerTitle}>A-colle!!</Text> {/* アプリのタイトル */}
 
             {/* ①～④のスクロール可能部分 */}
             <ScrollView style={homeStyles.scrollViewContent}>

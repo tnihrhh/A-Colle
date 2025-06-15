@@ -25,7 +25,7 @@ export default function ShopHomeScreen({ navigation }) {
       addCollectedCard(pulledCard);
       setLastPulledCard(pulledCard);
   
-      Alert.alert('ガチャ成功！', `${pulledCard.name} を獲得しました！\nコレクションで確認できます。`);
+      Alert.alert('ガチャ成功！', `${pulledCard.name} を獲得しました！$\nコレクションで確認できます。`);
     };
   
     if (!gachaAssetsLoaded) {
@@ -38,7 +38,7 @@ export default function ShopHomeScreen({ navigation }) {
     }
   
     return (
-      <ScrollView contentContainerStyle={styles.scrollContainer}> {/* ScrollViewで囲む */}
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
         <StatusBar style="auto" />
         <Text style={styles.title}>ショップ</Text>
         <Text style={styles.moneyText}>所持金: {money}円</Text>

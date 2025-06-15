@@ -1,4 +1,4 @@
-// GameScreen.js
+// Game01_MemoryGameScreen.js
 // 神経衰弱ゲームのメインロジックとUI
 
 import React, { useState, useEffect, useContext } from 'react'; // useContextをインポート
@@ -57,7 +57,7 @@ const ICONS = [
     return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
   };
   
-  export default function GameScreen() {
+  export default function Game01Screen() {
     const { addTicket } = useContext(GameContext);
   
     const [cards, setCards] = useState([]);
@@ -232,7 +232,7 @@ const ICONS = [
     return (
       <View style={styles.container}>
         <StatusBar style="auto" />
-        <Text style={styles.title}>プレイ！神経衰弱</Text>
+        <Text style={styles.title}>神経衰弱</Text>
         <Text style={styles.movesText}>手数: {moves}</Text>
         <Text style={styles.timerText}>残り時間: {formatTime(timeRemaining)}</Text>
         <FlatList
